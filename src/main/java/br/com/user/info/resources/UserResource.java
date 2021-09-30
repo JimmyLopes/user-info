@@ -2,28 +2,29 @@ package br.com.user.info.resources;
 
 import br.com.user.info.model.User;
 import br.com.user.info.repository.UserRepository;
+import br.com.user.info.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/user")
 public class UserResource {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @GetMapping
-    public List<User> getall() {
-        return userRepository.findAll();
+    public User getUser(@PathVariable Long userId) {
+        return userService.getUser(userId);
     }
 
     @PostMapping
     public User saveNew(@RequestBody User product) {
-        return userRepository.save(product);
+        return userService.saveUser(product);
     }
 
     @DeleteMapping
-    public void deleteAll() { userRepository.deleteAll(); }
+    public void deleteAll(@PathVariable Long userId) { userService.deleteUser(userId); }
 }
